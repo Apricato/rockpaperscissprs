@@ -1,88 +1,95 @@
+let humanScore = 0;
+let computerScore = 0;
 
 const initializer = 0;
 
-function getHumanChoice ()
-    {
+const btnrock = document.createElement("button");
+const btnpaper = document.createElement("button");
+const btnscissors = document.createElement("button");
+const label = document.createElement("p");
 
-        output = window.prompt("message")
-        return output.toLowerCase()
-    }
+const paragraph = document.createElement("p");
+const body = document.querySelector("body");
+const adiv = document.createElement("div");
 
-function getComputerChoice()
-    {
-        let value =  Math.random();
-        console.log(value)
-        if (value >= 0 && value < 0.33){
-            return "rock";
-        }
-        else if (value >= 0.33 && value < 0.67){
-            return "paper";
-        }else {
-            return "scissors";
-        }
+btnpaper.textContent = "paper";
+btnrock.textContent = "rock";
+btnscissors.textContent = "scissors";
 
-        
-    }
+body.appendChild(adiv);
+adiv.appendChild(label);
+adiv.appendChild(paragraph);
 
+body.appendChild(btnrock);
+body.appendChild(btnpaper);
+body.appendChild(btnscissors);
 
+function sendround(btninput) {
+  let round = playRound(btninput, getComputerChoice());
 
+  if (humanScore === 5) {
+    paragraph.textContent = ">>>>>> Congratulations you have won";
+    humanScore = 0;
+    computerScore = 0;
+  } else if (computerScore === 5) {
+    paragraph.textContent = ">>>>>> Game over the computer won";
+    humanScore = 0;
+    computerScore = 0;
+  }
 
+}
 
-function playGame()
-   {
+btnpaper.addEventListener("click", () => {
+  sendround("paper");
+});
 
-    let humanScore = 0;
-    let computerScore = 0;
+btnrock.addEventListener("click", () => {
+  sendround("rock");
+});
 
-    function playRound(humanChoice, computerChoice){
-        switch(true){
-           case humanChoice === computerChoice:
-              return "Its a tie!";
-          
-          case humanChoice === 'paper' && computerChoice === 'rock':
-              humanScore++;
-              return "You win! Paper beats Rock.";
-          
-          case humanChoice === 'scissors' && computerChoice === 'paper':
-              humanScore++; 
-              return "You win! scissors beats paper.";
-          
-          case humanChoice === 'rock' && computerChoice === 'scissors':
-              humanScore++; 
-              return "You win! Rock  beats scissors.";
-          
-      
-           default:
-              computerScore++;
-              return `Computer wins! ${computerChoice} beats ${humanChoice}.`;
-        }
-      }
+btnscissors.addEventListener("click", () => {
+  sendround("scissors");
+});
 
-    for (let i = 0 ; i < 5 ; i++){
-        console.log(`--------------Round: ${i+1}------------------`);
+function getComputerChoice() {
+  let value = Math.random();
+  console.log(value);
+  if (value >= 0 && value < 0.33) {
+    return "rock";
+  } else if (value >= 0.33 && value < 0.67) {
+    return "paper";
+  } else {
+    return "scissors";
+  }
+}
 
-        let round = playRound(getHumanChoice(), getComputerChoice());
-        console.log(round)
-    }
+function playRound(humanChoice, computerChoice) {
+  switch (true) {
+    case humanChoice === computerChoice:
+      label.textContent = "It is a tie";
+      return "Its a tie!";
 
-    if ( humanScore === computerScore ){
-        console.log(">>> Game ended, It is a tie!");
-     
-    }
-        else  if (computerScore > humanScore) {
-        console.log(">>> Game ended,Computer has won");
-    }
-    else  {
-        console.log(">>>>>> Game ended , Human has won <<<<< <<<");
-    }
+    case humanChoice === "paper" && computerChoice === "rock":
+      humanScore++;
+      label.textContent = "You win! Paper beats Rock.";
+      return "You win! Paper beats Rock.";
 
-   }
+    case humanChoice === "scissors" && computerChoice === "paper":
+      humanScore++;
+      label.textContent = "You win! scissors beats paper.";
+      return "You win! scissors beats paper.";
 
+    case humanChoice === "rock" && computerChoice === "scissors":
+      humanScore++;
+      label.textContent = "You win! Rock  beats scissors.";
+      return "You win! Rock  beats scissors.";
 
+    default:
+      computerScore++;
+      label.textContent = `Computer wins! ${computerChoice} beats ${humanChoice}.`;
 
-   playGame();
+      return `Computer wins! ${computerChoice} beats ${humanChoice}.`;
+  }
 
-
-
-
-
+  
+}
